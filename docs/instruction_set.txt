@@ -1,0 +1,52 @@
+
+  Instruction   |            Layout             |    Description
+----------------+-------------------------------+----------------------------------------------------------------------------------------------
+nop             | 0000 0000                     | Does nothing. This instruction is the only one that takes up one byte and not three.
+r               | 0000 0001 0000 0000 0000 0000 | Jumps to the address specified by the linking register.
+slr   imm       | 0000 0010 iiii iiii iiii iiii | Set the linking register to PC + imm.
+ja    imm       | 0000 0011 iiii iiii iiii iiii | Jumps to the address specified by the address register + imm.
+shl   rs,ra,rb  | 0000 0100 0bbb 0aaa 0sss 0000 | Shifts ra by rb bits to the left and stores the result to rs.
+shli  rs,ra,imm | 0000 0101 iiii 0aaa 0sss 0000 | Shifts ra by imm bits to the left and stores the result to rs.
+shr   rs,ra,rb  | 0000 0110 0bbb 0aaa 0sss 0000 | Shifts ra by rb bits to the right and stores the result to rs.
+shri  rs,ra,imm | 0000 0111 iiii 0aaa 0sss 0000 | Shifts ra by imm bits to the right and stores the result to rs.
+eb    rs,ra     | 0000 1000 0aaa 0sss 0000 0000 | Extends bit 7 to cover the highest 8 bits.
+et    rs,ra     | 0000 1001 0aaa 0sss 0000 0000 | Extends bit 11 to cover the highest 4 bits.
+add   rs,ra,rb  | 0000 1010 0bbb 0aaa 0sss 0000 | Adds the contents of ra and rb and stores the result to rs.
+sub   rs,ra,rb  | 0000 1011 0bbb 0aaa 0sss 0000 | Subtracts the contents of rb from ra and stores the result to rs.
+or    rs,ra,rb  | 0000 1100 0bbb 0aaa 0sss 0000 | ORs the contents of ra and rb and stores the result to rs.
+and   rs,ra,rb  | 0000 1101 0bbb 0aaa 0sss 0000 | ANDs the contents of ra and rb and stores the result to rs.
+xor   rs,ra,rb  | 0000 1110 0bbb 0aaa 0sss 0000 | XORs the contents of ra and rb and stores the result to rs.
+m     rs,ra     | 0000 1111 0aaa 0sss 0000 0000 | Copy the contents of ra to rs.
+adda  rs        | 0001 0000 0sss 0000 0000 0000 | Add the contents of rs to the address register.
+addia imm       | 0001 0001 iiii iiii iiii iiii | Add imm to the address register.
+lia   imm       | 0001 0010 iiii iiii iiii iiii | Copy imm to the lowest 16-bits of the address register.
+lias  imm       | 0001 0011 0000 0000 0000 iiii | Copy imm to the higher 4-bits of the address register.
+ll    rs,imm    | 0001 0100 iiii iiii iiii 0sss | Copy the address register to the linking register.
+sl    rs,imm    | 0001 0101 iiii iiii iiii 0sss | Copy the linking register to the address register.
+mtar  rs,imm    | 0001 0110 000i iiii 0sss 0000 | Copy rs to the address register shifted at imm bits to the left.
+mfar  rs,imm    | 0001 0111 000i iiii 0sss 0000 | Copy address register shifted at imm bits to the left into rs.
+mfir  rs        | 0001 1000 0sss 0000 0000 0000 | Copy the status bit from the interrupt register to rs.
+mfov  rs        | 0001 1001 0sss 0000 0000 0000 | Copy the contents of the overflow register to rs.
+int   imm       | 0001 1010 iiii iiii iiii iiii | Generate an interrupt of type imm.
+b     imm       | 0001 1011 iiii iiii iiii iiii | Jump to PC + imm.
+wr    rs,ra     | 0001 1100 0aaa 0sss 0000 0000 | Write rs to the I/O channel specified by ra.
+wi    rs,imm    | 0001 1101 0iii iiii iii0 0sss | Write rs to I/O channel imm.
+rr    rs,ra     | 0001 1110 0aaa 0sss 0000 0000 | Read from the I/O channel specified by ra and store to rs.
+ri    rs,imm    | 0001 1111 0iii iiii iii0 0sss | Read from I/O channel imm and store result to rs.
+
+addi  rs,imm    | 1000 0sss iiii iiii iiii iiii | Add imm to rs.
+ori   rs,imm    | 1000 1sss iiii iiii iiii iiii | OR imm with rs.
+andi  rs,imm    | 1001 0sss iiii iiii iiii iiii | AND imm with rs.
+xori  rs,imm    | 1001 1sss iiii iiii iiii iiii | XOR imm with rs.
+bn    rs,imm    | 1010 0sss iiii iiii iiii iiii | If the highest bit of rs is set, jump to PC + imm, else do nothing.
+bp    rs,imm    | 1010 1sss iiii iiii iiii iiii | If the highest bit of rs is not set, jump to PC + imm, else do nothing.
+bz    rs,imm    | 1011 0sss iiii iiii iiii iiii | If rs is equal to 0, jump to PC + imm, else do nothing.
+bq    rs,imm    | 1011 1sss iiii iiii iiii iiii | If rs is not equal to 0, jump to PC + imm, else do nothing.
+lw    rs,imm    | 1100 0sss iiii iiii iiii iiii | Load the 16-bit value at the address specified by the data page register + ra + imm into rs.
+lb    rs,imm    | 1100 1sss iiii iiii iiii iiii | Load the 8-bit value at the address specified by the data page register + ra + imm into rs.
+sw    rs,imm    | 1101 0sss iiii iiii iiii iiii | Store rs to the address specified by the data page register + ra + imm.
+sb    rs,imm    | 1101 1sss iiii iiii iiii iiii | Store the lowest 8-bits of rs to the address specified by the data page register + ra + imm.
+jr    rs,imm    | 1110 0sss iiii iiii iiii iiii | Jumps to the address specified by (rs << 4) + imm.
+li    rs,imm    | 1110 1sss iiii iiii iiii iiii | Copy imm to rs.
+la    rs,imm    | 1111 0sss iiii iiii iiii iiii | Load the 3 byte value addressed by (rs << 4) + imm into the address register.
+sa    rs,imm    | 1111 1sss iiii iiii iiii iiii | Store the address register to the address specified by (rs << 4) + imm.
